@@ -1,0 +1,5 @@
+torch
+gguf
+numpy
+argparse
+ultralytics
