@@ -12,9 +12,7 @@ def main():
         
         print("\n--- Key-Value Fields / Metadata ---")
         for key, field in reader.fields.items():
-            # Retrieve the Python representation of the field value
             val = field.parts[-1]
-            # Convert bytes to string for readability if applicable
             if isinstance(val, (bytes, bytearray)):
                 try:
                     val = val.decode('utf-8')
@@ -22,9 +20,12 @@ def main():
                     pass
             print(f"  {key}: {val} (type: {field.types})")
             
-        print("\n--- Tensors ---")
-        for tensor in reader.tensors:
-            print(f"  Name: {tensor.name:<35} | Shape: {str(list(tensor.shape)):<15} | GGML Type: {tensor.tensor_type.name}")
+        print("\n--- Tensors (first 10) ---")
+        for i, tensor in enumerate(reader.tensors):
+            if i < 10:
+                print(f"  Name: {tensor.name:<45} | Shape: {str(list(tensor.shape)):<15} | GGML Type: {tensor.tensor_type.name}")
+        if len(reader.tensors) > 10:
+            print(f"  ... and {len(reader.tensors) - 10} more tensors")
             
         print("\nVerification read completed successfully!")
     except Exception as e:
